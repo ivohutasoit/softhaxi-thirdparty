@@ -71,6 +71,12 @@ const specific = {
      */
     name: process.env.APP_NAME || 'Third Party Service - Test Realm',
   },
+  staging: {
+    /**
+     * Running port
+     */
+    port: process.env.PORT || 3000,
+  },
   production: {
     /**
      * Running port
