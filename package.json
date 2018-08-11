@@ -11,8 +11,7 @@
   "scripts": {
     "start": "node ./src/index.js",
     "local": "gulp --gulpfile ./gulpfile.js",
-    "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js",
-    "heroku-postbuild": "yarn && yarn start"
+    "test": "./node_modules/mocha/bin/mocha ./test/**/*.test.js"
   },
   "repository": {
     "type": "git",

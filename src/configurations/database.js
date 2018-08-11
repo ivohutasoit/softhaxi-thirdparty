@@ -39,11 +39,11 @@ module.exports = {
     staging: {
       client: 'postgresql',
       connection: {
-        host: process.env.DB_SERVER || 'localhost',
-        port: process.env.DB_PORT || 5432,
-        database: process.env.DB_NAME || 'dbstag',
-        user: process.env.DB_USERNAME || 'username',
-        password: process.env.DB_PASSWORD || 'password',
+        host: process.env.DATABASE_SERVER || 'localhost',
+        port: process.env.DATABASE_PORT || 5432,
+        database: process.env.DATABASE_NAME || 'dbstag',
+        user: process.env.DATABASE_USERNAME || 'username',
+        password: process.env.DATABASE_PASSWORD || 'password',
         ssl: true
       },
       pool: {
@@ -62,11 +62,11 @@ module.exports = {
     production: {
       client: 'postgresql',
       connection: {
-        host: process.env.DB_SERVER || 'localhost',
-        port: process.env.DB_PORT || 5432,
-        database: process.env.DB_NAME || 'dbprod',
-        user: process.env.DB_USERNAME || 'username',
-        password: process.env.DB_PASSWORD || 'password',
+        host: process.env.DATABASE_SERVER || 'localhost',
+        port: process.env.DATABASE_PORT || 5432,
+        database: process.env.DATABASE_NAME || 'dbprod',
+        user: process.env.DATABASE_USERNAME || 'username',
+        password: process.env.DATABASE_PASSWORD || 'password',
         ssl: true
       },
       pool: {
