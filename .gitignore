@@ -16,8 +16,9 @@ _ignore
 env.sh
 *debug.js
 
-# knex seed
+# knex
 database/seeds
+database/*/temp
 
 # databases
 *.sqlite3
