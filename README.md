@@ -18,4 +18,4 @@ Softh Axi third party service provide some of third party authentication, author
 2. [ ] Application Management
 
 ## References
-1. [Softh Axi Node Koa Template] (https://github.com/ivohutasoit/softhaxi-node-koa-template)
+1. [Softh Axi Node Koa Template](https://github.com/ivohutasoit/softhaxi-node-koa-template)
