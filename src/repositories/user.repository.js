@@ -27,6 +27,14 @@ function findByUsername(username) {
   return database('users').where({ username: username }).first().catch((error) => { throw error })
 }
 
+function create(userData) {
+  return database('users').insert(userData).then((data) => {
+    if(!data) throw new Error('Unable to create user')
+    return findById(userData.id)
+  }).catch((error) => { throw error })
+}
+
 module.exports = {
-  list, findById, findByUsername
+  list, findById, findByUsername,
+  create
 }
