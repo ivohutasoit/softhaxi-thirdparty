@@ -30,7 +30,7 @@ const base = {
   /**
    * Application name
    */
-  name: process.env.APP_NAME || 'Third Party Service',
+  name: process.env.APP_NAME || 'Softh Axi Third Party',
 
   /**
   * Application description
@@ -58,7 +58,7 @@ const specific = {
     /**
      * Application name
      */
-    name: process.env.APP_NAME || 'Third Party Service - Development',
+    name: process.env.APP_NAME || 'Softh Axi Third Party - Development',
   },
   test: {
     /**
@@ -69,7 +69,7 @@ const specific = {
     /**
      * Application name
      */
-    name: process.env.APP_NAME || 'Third Party Service - Test Realm',
+    name: process.env.APP_NAME || 'Softh Axi Third Party - Test Realm',
   },
   staging: {
     /**
