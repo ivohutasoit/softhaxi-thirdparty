@@ -115,7 +115,7 @@ routes.get('/info',  passport.authenticate('jwt', {session: false }), async(ctx)
       status: 'SUCCESS',
       data: {
         authenticated: true,
-        user: { id: user.id, username: user.username, hv_admin: user.hv_admin, is_active: user.is_active }
+        user: { id: user.id, username: user.username, is_active: user.is_active }
       }
     }
     return ctx

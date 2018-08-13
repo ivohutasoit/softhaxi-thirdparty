@@ -67,5 +67,5 @@ function activate(tokenData) {
 
 module.exports = {
   list, findById, findByUsername, findByEmail,
-  create
+  create, activate
 }

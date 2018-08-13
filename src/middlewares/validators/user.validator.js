@@ -25,9 +25,9 @@ async function validateUserRegistration(ctx, next) {
         if(valid) valid = false
         messages['email'] = 'already used other user'
       }
-    }).catch(error) { 
+    }).catch((error) => { 
       console.log(error)
-    }
+    })
   }
 
   if(!request.first_name) {

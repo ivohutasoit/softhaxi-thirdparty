@@ -3,7 +3,7 @@
 async function validateRegistrationToken(ctx, next) {
   const request = ctx.request.body
   var valid = true
-  messages = {}
+  var messages = {}
 
   if(!request.email) {
     if(valid) valid = false
