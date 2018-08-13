@@ -9,9 +9,9 @@ Softh Axi third party service provide some of third party authentication, author
 ## Todo list
 1. [ ] User Maintenance
    - [x] Registration
-   - [ ] Activation using OTP
+   - [-] Activation using OTP
      - [ ] \(Optional) Request OTP
-     - [ ] Validate OTP
+     - [x] Validate OTP
    - [x] Authentication using simple method
    - [x] Authorization using token for accessing
    - [ ] Profile
