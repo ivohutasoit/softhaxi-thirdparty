@@ -20,11 +20,12 @@ routes.get('/user', passport.authenticate('jwt', {session: false }), async(ctx) 
         userProfile.middle_name = profile.middle_name
         userProfile.last_name = profile.last_name
         userProfile.birth_date = profile.birth_date
+        userProfile.mobile = profile.mobile 
         userProfile.nation_id = profile.nation_no
         userProfile.address = {
-          address_1: profile.address_1,
-          address_2: profile.address_2,
-          address_3: profile.address_3,
+          street: profile.address_1,
+          state: profile.address_2,
+          province: profile.address_3,
           zip_code: profile.zip_code,
           country: profile.country_code
         }
