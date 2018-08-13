@@ -9,13 +9,18 @@ Softh Axi third party service provide some of third party authentication, author
 ## Todo list
 1. [ ] User Maintenance
    - [x] Registration
-   - [-] Activation using OTP
-     - [ ] \(Optional) Request OTP
-     - [x] Validate OTP
+   - [-] Activation using token
+     - [ ] \(Optional) Request token
+     - [x] Validate token
    - [x] Authentication using simple method
    - [x] Authorization using token for accessing
    - [x] Profile
-2. [ ] Application Management
+     - [ ] Update profile info
+   - [ ] Close account
+   - [ ] Upgrade account to business (corporate, profit organization, etc)
+2. [ ] \(Optional) Application Management
+   - [ ] Register an application
+   - [ ] Delete application
 
 ## References
 1. [Softh Axi Node Koa Template](https://github.com/ivohutasoit/softhaxi-node-koa-template)
