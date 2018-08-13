@@ -38,6 +38,7 @@ routes.post('/register', userValidator.validateUserRegistration, async(ctx) => {
       id: user.id,
       first_name: request.first_name.toUpperCase(),
       last_name: !request.last_name ? request.first_name.toUpperCase() : request.last_name.toUpperCase(),
+      email: request.email.toLowerCase(),
       created_by: user.id,
     }
     await profileRepository.create(profileData)

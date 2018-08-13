@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('users', (table) => {
     table.string('id', 36).unique().primary()
     table.string('username').unique().notNullable()
-    table.string('email', 50).unique().notNullable()
+    table.string('email', 50).nullable()
     table.string('mobile', 12).nullable()
     table.string('password', 100).notNullable()
     table.boolean('hv_admin').notNullable().defaultTo(false)

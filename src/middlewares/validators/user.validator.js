@@ -1,5 +1,7 @@
 'use strict'
 
+const userRepository = require('../../repositories/user.repository')
+
 async function validateUserRegistration(ctx, next) {
   const request = ctx.request.body
   var valid = true
@@ -17,6 +19,15 @@ async function validateUserRegistration(ctx, next) {
   if(!request.email) {
     if(valid) valid = false
     messages['email'] = 'required'
+  } else {
+    await userRepository.findByEmail(request.email.toLowerCase()).then((user) => {
+      if(user) {
+        if(valid) valid = false
+        messages['email'] = 'already used other user'
+      }
+    }).catch(error) { 
+      console.log(error)
+    }
   }
 
   if(!request.first_name) {

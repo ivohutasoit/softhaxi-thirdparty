@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('middle_name', 50).nullable()
     table.string('last_name', 50).nullable()
     table.timestamp('birth_date').nullable()
+    table.string('email', 50).nullable()
     table.string('mobile', 12).nullable()
     table.string('nation_no').nullable()
     table.string('address_1', 100).nullable()

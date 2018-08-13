@@ -16,7 +16,7 @@ function list() {
  * @param {String} id 
  */
 function findById(id) {
-  return database('users').where({ id }).first().catch((error) => { throw error })
+  return database('users').where({ id: id, is_deleted: false }).first().catch((error) => { throw error })
 }
 
 /**
@@ -24,7 +24,15 @@ function findById(id) {
  * @param {String} username 
  */
 function findByUsername(username) {
-  return database('users').where({ username: username }).first().catch((error) => { throw error })
+  return database('users').where({ username: username, is_deleted: false }).first().catch((error) => { throw error })
+}
+
+/**
+ * 
+ * @param {String} email 
+ */
+function findByEmail(email) {
+  return database('users').where({ email: email, is_deleted: false }).first().catch((error) => { throw error })
 }
 
 /**
@@ -58,6 +66,6 @@ function activate(tokenData) {
 }
 
 module.exports = {
-  list, findById, findByUsername,
+  list, findById, findByUsername, findByEmail,
   create
 }
