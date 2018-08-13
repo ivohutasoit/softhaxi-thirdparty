@@ -8,7 +8,10 @@ const userRepository = require('../repositories/user.repository')
 
 const routes = new Router()
 
-routes.get('/user', passport.authenticate('jwt', {session: false }), async(ctx) => {
+/**
+ * 
+ */
+routes.get('/user', passport.authenticate('jwt', { session: false }), async(ctx) => {
   await userRepository.findById(ctx.state.user.id).then(async(user) => {
     var userProfile = {
       id: user.id, username: user.username, email: user.email, is_active: user.is_active

@@ -14,7 +14,7 @@ routes.get('/', passport.authenticate('jwt', {session: false }), async(ctx) => {
   return ctx
 })
 
-routes.get('/profile', passport.authenticate('jwt', {session: false }), async(ctx) => {
+routes.get('/profile', async(ctx) => {
   ctx.status = 301
   ctx.redirect('/api/v1/profile/user')
   return ctx
