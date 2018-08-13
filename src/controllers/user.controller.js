@@ -1,7 +1,7 @@
 'use strict'
 
-const Router = require('koa-router')
 const passport = require('koa-passport')
+const Router = require('koa-router')
 
 const routes = new Router()
 
@@ -15,12 +15,8 @@ routes.get('/', passport.authenticate('jwt', {session: false }), async(ctx) => {
 })
 
 routes.get('/profile', passport.authenticate('jwt', {session: false }), async(ctx) => {
-  ctx.status = 200
-  ctx.body = {
-    status: 'SUCCESS',
-    data: ctx.state.user,
-    message: 'User profile is still underdevelopment',
-  }
+  ctx.status = 301
+  ctx.redirect('/api/v1/profile/user')
   return ctx
 })
 

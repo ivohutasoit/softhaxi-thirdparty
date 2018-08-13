@@ -5,6 +5,7 @@ const Router = require('koa-router')
 const application = require('./application')
 const activationController = require('../controllers/activation.controller')
 const authController = require('../controllers/auth.controller')
+const profileController = require('../controllers/profile.controller')
 const userController = require('../controllers/user.controller')
 
 const routes = new Router()
@@ -16,6 +17,7 @@ routes.get('/', async(ctx) => {
 
 apiV1.use('/activate', activationController.routes(), activationController.allowedMethods())
 apiV1.use('/auth', authController.routes(), authController.allowedMethods())
+apiV1.use('/profile', profileController.routes(), profileController.allowedMethods())
 apiV1.use('/user', userController.routes(), userController.allowedMethods())
 
 routes.use(apiV1.routes(), apiV1.allowedMethods())

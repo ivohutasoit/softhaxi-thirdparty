@@ -14,7 +14,7 @@ Softh Axi third party service provide some of third party authentication, author
      - [x] Validate OTP
    - [x] Authentication using simple method
    - [x] Authorization using token for accessing
-   - [ ] Profile
+   - [x] Profile
 2. [ ] Application Management
 
 ## References
