@@ -1,14 +1,14 @@
 'use strict'
 
-const connection = require('../configurations/connection')
-
-const database = connection['database']
+const database = require('../configurations/connection')['database']
 
 /**
  * 
  */
 function list() {
-  return database('users').select().catch((error) => { throw error })
+  return database('users').where({ hv_admin: false, is_deleted: false })
+    .select('id', 'username', 'email', 'mobile', 'is_active', 'activation_code', 'created_at')
+    .catch((error) => { throw error })
 }
 
 /**

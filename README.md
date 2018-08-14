@@ -7,7 +7,7 @@ Softh Axi third party service provide some of third party authentication, author
 3. User profiling
 
 ## Todo list
-1. [ ] User Maintenance
+1. [ ] User Creation & Authentication
    - [x] Registration
    - [-] Activation using token
      - [ ] \(Optional) Request token
@@ -18,7 +18,11 @@ Softh Axi third party service provide some of third party authentication, author
      - [ ] Update profile info
    - [ ] Close account
    - [ ] Upgrade account to business (corporate, profit organization, etc)
-2. [ ] \(Optional) Application Management
+2. [ ] Administrator - User Maintenance
+   - [x] User listing
+   - [x] User detail
+   - [ ] \(Optional) Ban an user
+3. [ ] \(Optional) Application Management
    - [ ] Register an application
    - [ ] Delete application
 
