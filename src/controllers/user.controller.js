@@ -26,7 +26,6 @@ routes.get('/', passport.authenticate('jwt', {session: false }),
     ctx.body = { message: err.message || 'Error while getting tasks' }
     return ctx
   })
-  
 })
 
 routes.get('/profile', async(ctx) => {
@@ -37,12 +36,27 @@ routes.get('/profile', async(ctx) => {
 
 routes.get('/:id', passport.authenticate('jwt', {session: false }), 
   adminAccessValidator.isAdminAccess, async(ctx) => {
-  ctx.status = 200
-  ctx.body = {
-    status: 'SUCCESS',
-    message: 'User detail with id as parameter is still underdevelopment'
-  }
-  return ctx
+  await userRepository.findById(ctx.params.id).then((user) => {
+    if(!user) {
+      ctx.status = 404
+      ctx.body = {
+        status: 'ERROR',
+        message: 'Not found'
+      }
+      return ctx
+    }
+    delete user.password
+    ctx.status = 200
+    ctx.body = {
+      status: 'SUCCESS',
+      data: user
+    }
+    return ctx
+  }).catch((err) => {
+    ctx.status = 400 
+    ctx.body = { message: err.message || 'Error while getting tasks' }
+    return ctx
+  })
 })
 
 module.exports = routes
