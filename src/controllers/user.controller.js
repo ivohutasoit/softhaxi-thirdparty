@@ -9,7 +9,7 @@ const accessValidator = require('../middlewares/validators/access.validator')
 const routes = new Router()
 
 routes.get('/', passport.authenticate('jwt', {session: false }), 
-  adminAccessValidator.isAdminAccess, async(ctx) => {
+  accessValidator.isAdminAccess, async(ctx) => {
   await userRepository.list().then((users) => {
     for(var user in users) {
       delete user['password']
@@ -35,7 +35,7 @@ routes.get('/profile', async(ctx) => {
 })
 
 routes.get('/:id', passport.authenticate('jwt', {session: false }), 
-  adminAccessValidator.isAdminAccess, async(ctx) => {
+  accessValidator.isAdminAccess, async(ctx) => {
   await userRepository.findById(ctx.params.id).then((user) => {
     if(!user) {
       ctx.status = 404
