@@ -23,7 +23,7 @@ async function validateForm(ctx, next) {
   if(!request.password) {
     if(valid) valid = false
     messages['password'] = 'required'
-  } else (request.password.length < 8) {
+  } else if(request.password.length < 8) {
     if(valid) valid = false
     messages['password'] = 'min length is 8'
   }
