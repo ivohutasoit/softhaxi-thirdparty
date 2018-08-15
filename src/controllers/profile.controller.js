@@ -11,13 +11,28 @@ const routes = new Router()
 /**
  * 
  */
-routes.get('/user', passport.authenticate('jwt', { session: false }), async(ctx) => {
-  await userRepository.findById(ctx.state.user.id).then(async(user) => {
-    var userProfile = {
-      id: user.id, username: user.username, email: user.email, is_active: user.is_active
+routes.get('/user/:id', passport.authenticate('jwt', { session: false }), async(ctx) => {
+  var id = ctx.state.user.id
+  if(ctx.params.id) id = ctx.params.id
+
+  await userRepository.findById(id).then(async(user) => {
+    if(!user) {
+      ctx.status = 404
+      ctx.body = {
+        status: 'ERROR',
+        message: 'Not found'
+      }
+      return ctx
     }
 
-    await profileRepository.findById(ctx.state.user.id).then((profile) => {
+    var userProfile = { 
+      id: user.id, 
+      username: user.username, 
+      email: user.email, 
+      is_active: user.is_active 
+    }
+
+    await profileRepository.findById(id).then((profile) => {
       if(profile) {
         userProfile.first_name = profile.first_name
         userProfile.middle_name = profile.middle_name
