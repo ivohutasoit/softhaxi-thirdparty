@@ -26,7 +26,7 @@ passport.deserializeUser((id, done) => {
 })
 
 passport.use(new LocalStrategy(options, (username, password, done) => {
-  userRepository.findByUsername(username.toUpperCase()).then((user) => {
+  userRepository.findByUsername(username.toLowerCase()).then((user) => {
     if(!user) return done(null, false)
     if(!comparePassword(password, user.password))
       return done(null, false)

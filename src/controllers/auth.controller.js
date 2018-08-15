@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const lodash = require('lodash/string')
 const moment = require('moment')
 const pincode = require('generate-pincode')
 const Router = require('koa-router')
@@ -11,37 +12,35 @@ const uuid = require('uuid/v1')
 const application = require('../configurations/application')
 const profileRepository = require('../repositories/profile.repository')
 const userRepository = require('../repositories/user.repository')
-const userValidator = require('../middlewares/validators/user.validator')
+const registerValidator = require('../middlewares/validators/register.validator')
 
 const routes = new Router()
 
-routes.post('/register', userValidator.validateUserRegistration, async(ctx) => {
+routes.post('/register', registerValidator.validateForm, async(ctx) => {
   const request = ctx.request.body
-  const id = uuid()
-  const userData = {
-    id: id,
-    username: request.username.toUpperCase(),
+
+  await userRepository.create({
+    id: uuid(),
+    username: request.username.toLowerCase(),
     email: request.email.toLowerCase(),
     password: bcrypt.hashSync(request.password, bcrypt.genSaltSync()),
     activation_code: pincode(4),
     created_by: id
-  }
-
-  await userRepository.create(userData).then(async(user) => {
+  }).then(async(user) => {
     if(!user) {
       ctx.status = 400
       ctx.body = { message: 'Unable to register new user' }
       return ctx
     }
-
-    const profileData = {
+    
+    await profileRepository.create({
       id: user.id,
-      first_name: request.first_name.toUpperCase(),
-      last_name: !request.last_name ? request.first_name.toUpperCase() : request.last_name.toUpperCase(),
+      first_name: lodash.capitalize(request.first_name),
+      last_name: !request.last_name ? lodash.capitalize(request.first_name) 
+            : lodash.capitalize(request.last_name),
       email: request.email.toLowerCase(),
       created_by: user.id,
-    }
-    await profileRepository.create(profileData)
+    })
 
     return user
   }).then((user) => {
