@@ -18,9 +18,9 @@ const routes = new Router()
 
 routes.post('/register', registerValidator.validateForm, async(ctx) => {
   const request = ctx.request.body
-
+  const id = uuid()
   await userRepository.create({
-    id: uuid(),
+    id: id,
     username: request.username.toLowerCase(),
     email: request.email.toLowerCase(),
     password: bcrypt.hashSync(request.password, bcrypt.genSaltSync()),
@@ -60,6 +60,7 @@ routes.post('/register', registerValidator.validateForm, async(ctx) => {
 routes.post('/login', async(ctx) => {
   try {
     return passport.authenticate('local', async(err, user, info, status) => {
+      console.log(user)
       if(!user) {
         ctx.status = 401
         ctx.body = { message: 'Authentication failed' }
@@ -68,7 +69,11 @@ routes.post('/login', async(ctx) => {
 
       if(!user.is_active) {
         ctx.status = 401
-        ctx.body = { message: 'Authentication failed' }
+        ctx.body = { 
+          status: 'ERROR',
+          message: 'Authentication failed',
+          reason: 'User was not activated' 
+        }
         return ctx
       }
 
@@ -121,7 +126,7 @@ routes.get('/info',  passport.authenticate('jwt', {session: false }), async(ctx)
   }).catch((err) => {
     console.error(err)
     ctx.status = 400
-    ctx.body = { message: err.message || 'Sorry, an error has occurred.' }
+    ctx.body = { status: 'ERROR', message: err.message || 'Sorry, an error has occurred.' }
     return ctx
   })
 })

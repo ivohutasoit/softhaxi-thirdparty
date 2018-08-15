@@ -11,7 +11,7 @@ const routes = new Router()
 /**
  * 
  */
-routes.get('/user/:id', passport.authenticate('jwt', { session: false }), async(ctx) => {
+routes.get('/user/:id*', passport.authenticate('jwt', { session: false }), async(ctx) => {
   var id = ctx.state.user.id
   if(ctx.params.id) id = ctx.params.id
 
@@ -23,6 +23,17 @@ routes.get('/user/:id', passport.authenticate('jwt', { session: false }), async(
         message: 'Not found'
       }
       return ctx
+    }
+
+    if(ctx.state.user.hv_admin != 1) {
+      if(user.hv_admin == 1) {
+        ctx.status = 404
+        ctx.body = {
+          status: 'ERROR',
+          message: 'Not found'
+        }
+        return ctx
+      }
     }
 
     var userProfile = { 

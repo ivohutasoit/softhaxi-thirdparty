@@ -11,7 +11,10 @@ routes.post('/user', activationValidator.validateRegistrationToken, async(ctx) =
   await userRepository.activate(ctx.request.body).then((user) => {
     if(!user) {
       ctx.status = 404
-      ctx.body = { message: 'Not found' }
+      ctx.body = { 
+        status: 'ERROR',
+        message: 'Not found' 
+      }
       return ctx
     }
 
