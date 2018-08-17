@@ -35,14 +35,13 @@ routes.get('/user/:id*', passport.authenticate('jwt', { session: false }), async
         return ctx
       }
     }
-
+    
     var userProfile = { 
       id: user.id, 
       username: user.username, 
       email: user.email, 
       is_active: user.is_active 
     }
-
     await profileRepository.findById(id).then((profile) => {
       if(profile) {
         userProfile.first_name = profile.first_name
@@ -59,6 +58,7 @@ routes.get('/user/:id*', passport.authenticate('jwt', { session: false }), async
           country: profile.country_code
         }
       }
+      if(user.id == ctx.state.user.id) userProfile.is_myself = true 
     })
 
     ctx.status = 200
