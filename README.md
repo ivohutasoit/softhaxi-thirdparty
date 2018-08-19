@@ -9,7 +9,7 @@ Softh Axi third party service provide some of third party authentication, author
 ## Todo list
 1. [ ] User Creation & Authentication
    - [x] Registration
-   - [-] Activation using token
+   - [ ] Activation using token
      - [ ] \(Optional) Request token
      - [x] Validate token
    - [x] Authentication using simple method
