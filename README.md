@@ -25,6 +25,11 @@ Softh Axi third party service provide some of third party authentication, author
 3. [ ] \(Optional) Application Management
    - [ ] Register an application
    - [ ] Delete application
+4. [ ] Refactoring project structure
+   - [ ] Routes
+   - [ ] Controllers
+   - [ ] Repositories
+   - [ ] configurations
 
 ## References
 1. [Softh Axi Node Koa Template](https://github.com/ivohutasoit/softhaxi-node-koa-template)
