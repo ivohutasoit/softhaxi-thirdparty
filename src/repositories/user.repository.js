@@ -1,6 +1,9 @@
 'use strict'
 
+const Cache = require('node-cache')
 const database = require('../configurations/connection')['database']
+
+const dbCache = new Cache({ stdTTL: 100, checkperiod: 120, useClones: false })
 
 /**
  * 
@@ -16,7 +19,22 @@ function list() {
  * @param {String} id 
  */
 function findById(id) {
-  return database('users').where({ id: id, is_deleted: false }).first().catch((error) => { throw error })
+  return new Promise((resolve, reject) => {
+    dbCache.get(id, (err, value) => {
+      if(!err) {
+        if(value === undefined) {
+          database('users').where({ id: id, is_deleted: false }).first()
+          .then((user) => {
+            dbCache.set(id, user)
+            resolve(user)
+          })
+          .catch((error) => { reject(error) })
+        } else {
+          resolve(value)
+        }
+      }
+    })
+  })
 }
 
 /**
@@ -24,7 +42,23 @@ function findById(id) {
  * @param {String} username 
  */
 function findByUsername(username) {
-  return database('users').where({ username: username, is_deleted: false }).first().catch((error) => { throw error })
+  return new Promise((resolve, reject) => {
+    dbCache.get(username, (err, value) => {
+      if(!err) {
+        if(value === undefined) {
+          database('users').where({ username: username, is_deleted: false }).first()
+          .then((user) => {
+            dbCache.set(username, user)
+            resolve(user)
+          })
+          .catch((error) => { reject(error) })
+        } else {
+          resolve(value)
+        }
+      }
+    })
+  })
+  //return database('users').where({ username: username, is_deleted: false }).first().catch((error) => { throw error })
 }
 
 /**
