@@ -1,6 +1,6 @@
 {
   "name": "softhaxi-thirdparty",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Third party service provide some of third party authentication, authorization and connectivity",
   "main": "index.js",
   "engines": {
