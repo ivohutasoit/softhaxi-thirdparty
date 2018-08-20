@@ -1,15 +1,17 @@
 'use strict'
 
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const lodash = require('lodash/string')
-const moment = require('moment')
-const passport = require('koa-passport')
-const pincode = require('generate-pincode')
-const uuid = require('uuid/v1')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const lodash = require('lodash/string');
+const moment = require('moment');
+const passport = require('koa-passport');
+const pincode = require('generate-pincode');
+const uuid = require('uuid/v1');
 
-const { Application } = require('../configurations')
-const { Profile, User } = require('../models')
+const { Application } = require('../configurations');
+const { Cache, Profile, User } = require('../models');
+
+const cache = new Cache(60 * 60 * 1);
 
 async function register(ctx) {
   try {
@@ -92,11 +94,13 @@ async function login(ctx) {
 }
 
 async function info(ctx) {
-  const user = await User.query()
-      .where('id', ctx.state.user.id)
-      .andWhere('is_deleted', false)
-      .select('id', 'username', 'is_active', 'created_at')
-      .first();
+  const user = await cache.get('info_' + ctx.state.user.id, () => {
+    return User.query()
+    .where('id', ctx.state.user.id)
+    .andWhere('is_deleted', false)
+    .select('id', 'username', 'is_active', 'created_at')
+    .first();
+  });
 
   if(!user) {
     ctx.status = 401;
