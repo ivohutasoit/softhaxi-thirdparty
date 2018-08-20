@@ -1,32 +1,32 @@
 'use strict'
 
 async function validate(ctx, next) {
-  const req = ctx.request.body
-  var valid = true
-  var messages = {}
+  const req = ctx.request.body;
 
-  if(!req.email) {
+  var valid = true
+  var messages = { }
+  if(!req.username) {
     if(valid) valid = false;
-    messages['email'] = 'required';
+    messages.username = 'required';
   }
 
-  if(!req.token) {
+  if(!req.password) {
     if(valid) valid = false;
-    messages['token'] = 'required';
+    messages.password = 'required';
   }
 
   if(!valid) {
     ctx.status = 400;
     ctx.body = {
       status: 'ERROR',
-      message: messages
+      messages: messages
     };
     return ctx;
   }
-    
+
   return next();
 }
 
 module.exports = {
   validate
-}
+};

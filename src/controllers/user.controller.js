@@ -6,11 +6,24 @@ const Router = require('koa-router')
 const userRepository = require('../repositories/user.repository')
 const accessValidator = require('../middlewares/validators/access.validator')
 
+const { User } = require('../models') 
+
 const routes = new Router()
 
 routes.get('/', passport.authenticate('jwt', {session: false }), 
   accessValidator.isAdminAccess, async(ctx) => {
-  await userRepository.list().then((users) => {
+    const users = await User.query()
+      .where('hv_admin', false)
+      .andWhere('is_deleted', false)
+      .select('id', 'username', 'email', 'mobile', 'is_active', 'activation_code', 'created_at')
+
+    ctx.status = 200
+    ctx.body = {
+      status: 'SUCCESS',
+      data: users
+    }
+    return ctx
+  /* await userRepository.list().then((users) => {
     for(var user in users) {
       delete user['password']
     }
@@ -25,7 +38,7 @@ routes.get('/', passport.authenticate('jwt', {session: false }),
     ctx.status = 400 
     ctx.body = { message: err.message || 'Error while getting tasks' }
     return ctx
-  })
+  }) */
 })
 
 routes.get('/profile', async(ctx) => {

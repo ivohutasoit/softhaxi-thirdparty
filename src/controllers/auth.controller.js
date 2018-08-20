@@ -4,131 +4,118 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const lodash = require('lodash/string')
 const moment = require('moment')
-const pincode = require('generate-pincode')
-const Router = require('koa-router')
 const passport = require('koa-passport')
+const pincode = require('generate-pincode')
 const uuid = require('uuid/v1')
 
-const application = require('../configurations/application')
-const profileRepository = require('../repositories/profile.repository')
-const userRepository = require('../repositories/user.repository')
-const registerValidator = require('../middlewares/validators/register.validator')
+const { Application } = require('../configurations')
+const { Profile, User } = require('../models')
 
-const routes = new Router()
+async function register(ctx) {
+  try {
+    const req = ctx.request.body;
+    const id = uuid();
+    const user = await User.query().insert({
+      id: id,
+      username: req.username.toLowerCase(),
+      email: req.email.toLowerCase(),
+      password: bcrypt.hashSync(req.password, bcrypt.genSaltSync()),
+      activation_code: pincode(4),
+      created_by: id
+    });
 
-routes.post('/register', registerValidator.validateForm, async(ctx) => {
-  const request = ctx.request.body
-  const id = uuid()
-  await userRepository.create({
-    id: id,
-    username: request.username.toLowerCase(),
-    email: request.email.toLowerCase(),
-    password: bcrypt.hashSync(request.password, bcrypt.genSaltSync()),
-    activation_code: pincode(4),
-    created_by: id
-  }).then(async(user) => {
-    if(!user) {
-      ctx.status = 400
-      ctx.body = { message: 'Unable to register new user' }
-      return ctx
+    if(user) {
+      try {
+        const profile = await Profile.query().insert({
+          id: user.id,
+          first_name: lodash.capitalize(req.first_name),
+          last_name: !req.last_name ? lodash.capitalize(req.first_name) 
+                : lodash.capitalize(req.last_name),
+          email: req.email.toLowerCase(),
+          created_by: user.id
+        });
+
+        if(profile) {
+          ctx.status = 201;
+          ctx.body = { 
+            status: 'SUCCESS', 
+            data: { 
+              id: user.id, 
+              username: user.username, 
+              activation_code: user.activation_code, 
+              is_active: user.is_active 
+            }  
+          };
+        } else {
+          User.query().deleteById(user.id);
+        }
+      } catch(err) {
+        User.query().deleteById(user.id);
+        console.error(err);
+        ctx.status = 400;
+        ctx.body = { status: 'ERROR', message: err.message || 'Sorry, an error has occurred.' };
+      }
     }
-    
-    await profileRepository.create({
-      id: user.id,
-      first_name: lodash.capitalize(request.first_name),
-      last_name: !request.last_name ? lodash.capitalize(request.first_name) 
-            : lodash.capitalize(request.last_name),
-      email: request.email.toLowerCase(),
-      created_by: user.id,
-    })
+  } catch(err) {
+    console.error(err);
+    ctx.status = 400;
+    ctx.body = { status: 'ERROR', message: err.message || 'Sorry, an error has occurred.' };
+  }
+}
 
-    return user
-  }).then((user) => {
-    ctx.status = 201
-    ctx.body = { 
-      status: 'SUCCESS', 
-      data: { id: user.id, username: user.username, activation_code: user.activation_code, is_active: user.is_active }  
-    }
-    return ctx
-  }).catch((err) => {
-    ctx.status = 400 
-    ctx.body = { message: err.message || 'Error while getting tasks' }
-    return ctx
-  })
-})
-
-routes.post('/login', async(ctx) => {
+async function login(ctx) {
   try {
     return passport.authenticate('local', async(err, user, info, status) => {
-      console.log(user)
-      if(!user) {
-        ctx.status = 401
-        ctx.body = { message: 'Authentication failed' }
-        return ctx
-      }
-
-      if(!user.is_active) {
-        ctx.status = 401
-        ctx.body = { 
-          status: 'ERROR',
-          message: 'Authentication failed',
-          reason: 'User was not activated' 
-        }
-        return ctx
-      }
-
-      const token = jwt.sign({ 
+      if(err) {
+        ctx.status = 401;
+        ctx.body = err;
+      } else { 
+        const token = jwt.sign({ 
             id: user.id, 
             exp: moment().add(14, 'days').unix(),
             iat: moment().unix(),
             sub: user.username
-        }, application.secret)
+        }, Application.secret);
 
-      ctx.status = 200
-      ctx.body = {
-        status: 'SUCCESS',
-        token: token,
-        message: 'Logged in successfully'
+        ctx.status = 200;
+        ctx.body = {
+          status: 'SUCCESS',
+          token: token
+        };
       }
-      return ctx
-    }) (ctx)
+    }) (ctx);
   } catch(err) {
     console.error(err)
-    ctx.status = 400
-    ctx.body = { message: err.message || 'Sorry, an error has occurred.' }
-    return ctx
+    ctx.status = 400;
+    ctx.body = { status: 'ERROR', message: err.message || 'Sorry, an error has occurred.' };
   }
-})
+}
 
-routes.post('/logout', async(ctx) => {
-    
-})
+async function info(ctx) {
+  const user = await User.query()
+      .where('id', ctx.state.user.id)
+      .andWhere('is_deleted', false)
+      .select('id', 'username', 'is_active', 'created_at')
+      .first();
 
-routes.get('/info',  passport.authenticate('jwt', {session: false }), async(ctx) => {
-  await userRepository.findById(ctx.state.user.id).then((user) => {
-    if(!user) {
-      ctx.status = 401
-      ctx.body = {
-        status: 'ERROR',
-        message: 'Authentication failed'
-      }
-      return ctx
-    }
-    ctx.status = 200
+  if(!user) {
+    ctx.status = 401;
     ctx.body = {
-      status: 'SUCCESS',
-      data: {
-        authenticated: true,
-        user: { id: user.id, username: user.username, is_active: user.is_active }
-      }
-    }
-    return ctx
-  }).catch((err) => {
-    console.error(err)
-    ctx.status = 400
-    ctx.body = { status: 'ERROR', message: err.message || 'Sorry, an error has occurred.' }
-    return ctx
-  })
-})
+      status: 'ERROR',
+      message: 'Authentication failed'
+    };
+  }
 
-module.exports = routes
+  ctx.status = 200;
+  ctx.body = {
+    status: 'SUCCESS',
+    data: {
+      authenticated: true,
+      user: user
+    }
+  };
+}
+
+module.exports = {
+  register, login, info
+}

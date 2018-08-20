@@ -12,7 +12,11 @@ Model.knex(database)
  * @since 1.0.1
  */
 class Profile extends Model {
-  static get tableName() { return 'profiles' }
+  static get tableName() { return 'profiles'; }
+
+  async $beforeUpdate() {
+    this.updated_at = database.fn.now();
+  }
 }
 
 module.exports = Profile

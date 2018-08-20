@@ -46,8 +46,8 @@ class Cache {
   }
 
   flush() {
-    this.cache.flushAll()
+    this.cache.flushAll();
   }
 }
 
-module.exports = Cache
+module.exports = Cache;

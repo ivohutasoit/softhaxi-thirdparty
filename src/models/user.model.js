@@ -1,9 +1,9 @@
 'use strict'
 
-const { Model } = require('objection')
-const database = require('../configurations/connection')['database']
+const { Model } = require('objection');
+const database = require('../configurations/connection')['database'];
 
-Model.knex(database)
+Model.knex(database);
 
 /**
  * User
@@ -12,7 +12,11 @@ Model.knex(database)
  * @since 1.0.1
  */
 class User extends Model {
-  static get tableName() { return 'users' }
+  static get tableName() { return 'users'; }
+
+  async $beforeUpdate() {
+    this.updated_at = database.fn.now();
+  }
 }
 
 module.exports = User

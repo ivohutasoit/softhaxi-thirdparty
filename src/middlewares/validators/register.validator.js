@@ -1,50 +1,58 @@
 'use strict'
 
-const userRepository = require('../../repositories/user.repository')
+const { User } = require('../../models')
 
-async function validateForm(ctx, next) {
-  const request = ctx.request.body
+async function validate(ctx, next) {
+  const req = ctx.request.body
   var valid = true
   var messages = { }
-  if(!request.username) {
-    if(valid) valid = false
-    messages['username'] = 'required'
+  if(!req.username) {
+    if(valid) valid = false;
+    messages['username'] = 'required';
   } else {
-    await userRepository.findByUsername(request.username.toLowerCase()).then((user) => {
+    try {
+      var user = await User.query()
+        .where('username', req.username.toLowerCase())
+        .andWhere('is_deleted', false)
+        .first();
       if(user) {
-        if(valid) valid = false
-        messages['username'] = 'already used other user'
+        if(valid) valid = false;
+        messages['username'] = 'already used other user';
       }
-    }).catch((error) => { 
-      console.log(error)
-    })
+    } catch(error) { 
+      console.log(error);
+    }
   }
 
-  if(!request.password) {
-    if(valid) valid = false
-    messages['password'] = 'required'
-  } else if(request.password.length < 8) {
-    if(valid) valid = false
-    messages['password'] = 'min length is 8'
+  if(!req.password) {
+    if(valid) valid = false;
+    messages['password'] = 'required';
+  } else if(req.password.length < 8) {
+    if(valid) valid = false;
+    messages['password'] = 'min length is 8';
   }
 
-  if(!request.email) {
+  if(!req.email) {
     if(valid) valid = false
     messages['email'] = 'required'
   } else {
-    await userRepository.findByEmail(request.email.toLowerCase()).then((user) => {
+    try {
+      var user = await User.query()
+        .where('email', req.email.toLowerCase())
+        .andWhere('is_deleted', false)
+        .first();
       if(user) {
-        if(valid) valid = false
-        messages['email'] = 'already used other user'
+        if(valid) valid = false;
+        messages['email'] = 'already used other user';
       }
-    }).catch((error) => { 
-      console.log(error)
-    })
+    } catch(error) { 
+      console.log(error);
+    }
   }
 
-  if(!request.first_name) {
-    if(valid) valid = false
-    messages['first_name'] = 'required'
+  if(!req.first_name) {
+    if(valid) valid = false;
+    messages['first_name'] = 'required';
   }
 
   if(!valid) {
@@ -60,5 +68,5 @@ async function validateForm(ctx, next) {
 }
 
 module.exports = {
-  validateForm
+  validate
 }
