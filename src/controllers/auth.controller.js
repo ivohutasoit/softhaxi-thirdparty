@@ -2,8 +2,8 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const lodash = require('lodash/string');
 const moment = require('moment');
+const lodash = require('lodash/string');
 const passport = require('koa-passport');
 const pincode = require('generate-pincode');
 const uuid = require('uuid/v1');
@@ -71,13 +71,13 @@ async function login(ctx) {
       if(err) {
         ctx.status = 401;
         ctx.body = err;
-      } else { 
+      } else {
         const token = jwt.sign({ 
-            id: user.id, 
-            exp: moment().add(14, 'days').unix(),
-            iat: moment().unix(),
-            sub: user.username
-        }, Application.secret);
+          id: user.id, 
+          exp: moment().add(14, 'days').unix(),
+          iat: moment().unix(),
+          sub: user.username
+        }, await Application.secret);
 
         ctx.status = 200;
         ctx.body = {

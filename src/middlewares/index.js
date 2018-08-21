@@ -1,7 +1,8 @@
 'use strict'
 
-const passport = require('./passport.middleware')
+const Passport = require('./passport.middleware');
+const Route = require('./route.middleware');
 
 module.exports = {
-  passport
+  Passport, Route
 }
