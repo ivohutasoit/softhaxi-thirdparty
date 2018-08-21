@@ -1,12 +1,12 @@
 'use strict'
 
-const application = require('./application')
-const authentication = require('./authentication')
-const connection = require('./connection')
-const route = require('./route')
-const view = require('./view')
+const Application = require('./application');
+const Connection = require('./connection');
+const Database = require('./database');
+const View = require('./view');
 
 module.exports = {
-  application, authentication,
-  connection, route, view
+  Application,
+  Connection,
+  View
 }

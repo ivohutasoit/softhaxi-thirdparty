@@ -1,6 +1,6 @@
 'use strict'
 
-const { User } = require('../../models')
+const { User } = require('../models')
 
 async function validate(ctx, next) {
   const req = ctx.request.body

@@ -1,9 +1,9 @@
 'use strict'
 
-const Router = require('koa-router')
+const Router = require('koa-router');
 
-const Application = require('./application')
-const { ApiV1 } = require('../routes') 
+const { Application } = require('../configurations')
+const { ApiV1 } = require('../routes');
 
 const routes = new Router()
 

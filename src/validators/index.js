@@ -1,9 +1,10 @@
 'use strict'
 
+const access = require('./access.validator');
 const activation = require('./activation.validator');
 const login = require('./login.validator');
 const register = require('./register.validator');
 
 module.exports = {
-  activation, login, register
+  access, activation, login, register
 }

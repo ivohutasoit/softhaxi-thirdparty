@@ -1,10 +1,8 @@
-'use strict'
+const path = require('path');
+const _ = require('lodash');
 
-const path = require('path')
-const _ = require('lodash')
-
-const packageJson = require('../../package.json')
-const environment = process.env.NODE_ENV = process.env.NODE_ENV || 'development'
+const packageJson = require('../../package.json');
+const environment = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const base = {
   /**
@@ -46,7 +44,7 @@ const base = {
    * Secret Key
    */
   secret: process.env.RESTFUL_SECRET_KEY || 'W3arEtheCH4mpi0n'
-}
+};
 
 const specific = {
   development: {
@@ -83,6 +81,6 @@ const specific = {
      */
     port: process.env.PORT || 3000,
   }
-}
+};
 
-module.exports = _.merge(base, specific[environment])
+module.exports = _.merge(base, specific[environment]);
