@@ -97,8 +97,9 @@ async function info(ctx) {
   const user = await cache.get('info_' + ctx.state.user.id, () => {
     return User.query()
     .where('id', ctx.state.user.id)
+    .andWhere('is_active', true)
     .andWhere('is_deleted', false)
-    .select('id', 'username', 'is_active', 'created_at')
+    .select('id', 'username')
     .first();
   });
 
