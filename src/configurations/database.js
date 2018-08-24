@@ -4,6 +4,9 @@ const path = require('path')
 
 const base = path.resolve(__dirname, '../../','database')
 
+/**
+ * @since 1.0.0
+ */
 module.exports = {
 
     test: {

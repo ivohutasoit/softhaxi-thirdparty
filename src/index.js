@@ -37,6 +37,9 @@ View.use(app);
 app.use(Route.routes());
 app.use(Route.allowedMethods());
 
+/**
+ * @since 1.0.0
+ */
 module.exports = app.listen(Application.port, () => {
   console.log(`Server's listen on port ${Application.port}`);
 });

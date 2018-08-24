@@ -34,7 +34,7 @@ passport.deserializeUser(async(id, done) => {
   } catch(err) {
     return done(err, null);
   }
-})
+});
 
 passport.use(new LocalStrategy(options, async(username, password, done) => {
   try {
@@ -56,7 +56,7 @@ passport.use(new LocalStrategy(options, async(username, password, done) => {
   } catch(err) { 
     return done(err);
   }
-}))
+}));
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
@@ -76,6 +76,6 @@ passport.use(new JWTStrategy({
   } catch(err) {
     return done(err);
   }
-}))
+}));
 
-module.exports = passport
+module.exports = passport;

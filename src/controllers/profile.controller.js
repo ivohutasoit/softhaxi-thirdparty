@@ -5,7 +5,7 @@ const { Cache, Profile, User } = require('../models');
 const cache = new Cache(60 * 60 * 1);
 
 /**
- * 
+ * @since 1.1.0
  * @param {Object} ctx 
  */
 async function user(ctx) {

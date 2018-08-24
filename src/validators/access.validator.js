@@ -2,6 +2,11 @@
 
 const { User } = require('../models');
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ * @param {method} next 
+ */
 async function validateHaveMeAdmin(ctx, next) {
   if(!ctx.state.user) {
     ctx.status = 401

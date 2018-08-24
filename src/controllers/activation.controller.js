@@ -2,6 +2,10 @@
 
 const { User } = require('../models');
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
 async function user(ctx) {
   try {
     const req = ctx.request.body
@@ -43,6 +47,9 @@ async function user(ctx) {
   }
 }
 
+/**
+ * @since 1.1.0
+ */
 module.exports = {
   user
 }

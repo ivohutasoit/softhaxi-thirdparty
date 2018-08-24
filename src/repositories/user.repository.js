@@ -3,7 +3,7 @@
 const database = require('../configurations/connection')['database']
 
 /**
- * 
+ * @deprecated since version 1.1.0
  */
 function list() {
   return database('users').where({ hv_admin: false, is_deleted: false })
@@ -12,7 +12,7 @@ function list() {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} id 
  */
 function findById(id) {
@@ -20,7 +20,7 @@ function findById(id) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} username 
  */
 function findByUsername(username) {
@@ -28,7 +28,7 @@ function findByUsername(username) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {String} email 
  */
 function findByEmail(email) {
@@ -36,7 +36,7 @@ function findByEmail(email) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} userData 
  */
 function create(userData) {
@@ -47,7 +47,7 @@ function create(userData) {
 }
 
 /**
- * 
+ * @deprecated since version 1.1.0
  * @param {Object} tokenData 
  */
 function activate(tokenData) {
@@ -65,6 +65,9 @@ function activate(tokenData) {
     }).catch((error) => { throw error })
 }
 
+/**
+ * @deprecated since version 1.1.0
+ */
 module.exports = {
   list, findById, findByUsername, findByEmail,
   create, activate

@@ -4,6 +4,9 @@ const _ = require('lodash');
 const packageJson = require('../../package.json');
 const environment = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+/**
+ * @since 1.0.0
+ */
 const base = {
   /**
    * Root folder
@@ -46,6 +49,9 @@ const base = {
   secret: process.env.RESTFUL_SECRET_KEY || 'W3arEtheCH4mpi0n'
 };
 
+/**
+ * @since 1.0.0
+ */
 const specific = {
   development: {
     /**
@@ -83,4 +89,7 @@ const specific = {
   }
 };
 
+/**
+ * @since 1.0.0
+ */
 module.exports = _.merge(base, specific[environment]);

@@ -13,6 +13,10 @@ const { Cache, Profile, User } = require('../models');
 
 const cache = new Cache(60 * 60 * 1);
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
 async function register(ctx) {
   try {
     const req = ctx.request.body;
@@ -65,6 +69,10 @@ async function register(ctx) {
   }
 }
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
 async function login(ctx) {
   try {
     return passport.authenticate('local', async(err, user, info, status) => {
@@ -93,13 +101,16 @@ async function login(ctx) {
   }
 }
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
 async function info(ctx) {
   const user = await cache.get('info_' + ctx.state.user.id, () => {
     return User.query()
     .where('id', ctx.state.user.id)
     .andWhere('is_active', true)
     .andWhere('is_deleted', false)
-    .select('id', 'username')
     .first();
   });
 
@@ -107,18 +118,18 @@ async function info(ctx) {
     ctx.status = 401;
     ctx.body = {
       status: 'ERROR',
-      message: 'Authentication failed'
+      message: 'Unauthorized'
+    };
+  } else {
+    ctx.status = 200;
+    ctx.body = {
+      status: 'SUCCESS',
+      data: {
+        authenticated: true,
+        user: user
+      }
     };
   }
-
-  ctx.status = 200;
-  ctx.body = {
-    status: 'SUCCESS',
-    data: {
-      authenticated: true,
-      user: user
-    }
-  };
 }
 
 module.exports = {

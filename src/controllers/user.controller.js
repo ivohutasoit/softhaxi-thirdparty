@@ -2,6 +2,10 @@
 
 const { User } = require('../models');
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
 async function list(ctx) {
   try {
     const users = await User.query()
@@ -19,6 +23,10 @@ async function list(ctx) {
   }
 }
 
+/**
+ * @since 1.1.0
+ * @param {Object} ctx 
+ */
 async function detail(ctx) {
   try {
     const user = await User.query()
@@ -46,6 +54,9 @@ async function detail(ctx) {
   }
 } 
 
+/**
+ * @since 1.1.0
+ */
 module.exports = {
   list, detail
 }
