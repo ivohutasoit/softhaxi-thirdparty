@@ -11,5 +11,6 @@ const View = require('./view');
 module.exports = {
   Application,
   Connection,
+  Database,
   View
 }
