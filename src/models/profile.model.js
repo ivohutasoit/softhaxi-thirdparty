@@ -1,9 +1,9 @@
 'use strict'
 
-const { Model } = require('objection')
-const database = require('../configurations/connection')['database']
+const { Model } = require('objection');
+const { Connection } = require('../configurations');
 
-Model.knex(database)
+Model.knex(Connection.database);
 
 /**
  * Profile
@@ -19,4 +19,4 @@ class Profile extends Model {
   }
 }
 
-module.exports = Profile
+module.exports = Profile;

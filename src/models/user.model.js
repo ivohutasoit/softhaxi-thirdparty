@@ -1,15 +1,15 @@
 'use strict'
 
 const { Model } = require('objection');
-const database = require('../configurations/connection')['database'];
+const { Connection } = require('../configurations');
 
-Model.knex(database);
+Model.knex(Connection.database);
 
 /**
  * User
  * 
  * @author Ivo Hutasoit <if09051@gmail.com>
- * @since 1.0.1
+ * @since 1.1.0
  */
 class User extends Model {
   static get tableName() { return 'users'; }
@@ -19,4 +19,4 @@ class User extends Model {
   }
 }
 
-module.exports = User
+module.exports = User;

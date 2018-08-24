@@ -1,12 +1,12 @@
 'use strict'
 
-const NodeCache = require('node-cache')
+const NodeCache = require('node-cache');
 
 /**
  * User
  * 
  * @author Ivo Hutasoit <if09051@gmail.com>
- * @since 1.0.1
+ * @since 1.1.0
  */
 class Cache {
   constructor(ttlSeconds) {
