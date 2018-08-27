@@ -111,6 +111,7 @@ async function info(ctx) {
     .where('id', ctx.state.user.id)
     .andWhere('is_active', true)
     .andWhere('is_deleted', false)
+    .select('id', 'username')
     .first();
   });
 
