@@ -15,7 +15,7 @@ class User extends Model {
   static get tableName() { return 'users'; }
 
   async $beforeUpdate() {
-    this.updated_at = database.fn.now();
+    this.updated_at = Connection.database.fn.now();
   }
 }
 
