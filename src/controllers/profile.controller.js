@@ -2,7 +2,7 @@
 
 const { Cache, Profile, User } = require('../models');
 
-const cache = new Cache(60 * 60 * 1);
+const cache = new Cache(1);
 
 /**
  * @since 1.1.0
@@ -40,14 +40,34 @@ async function user(ctx) {
             country: profile.country_code
           };
         }
+
+        if(user.id === ctx.state.user.id) {
+          user.self = 'YOU';
+        }
       }
       return user;
     });
 
-    ctx.status = 200
-    ctx.body = {
-        status: 'SUCCESS',
-        data: userProfile
+    if(userProfile !== undefined) {
+      if(userProfile.is_active === 0) {
+        ctx.status = 404;
+        ctx.body = {
+            status: 'ERROR',
+            message: 'Not found'
+        };
+      } else {
+        ctx.status = 200;
+        ctx.body = {
+            status: 'SUCCESS',
+            data: userProfile
+        };
+      }
+    } else {
+      ctx.status = 404;
+      ctx.body = {
+          status: 'ERROR',
+          message: 'Not found'
+      };
     }
   } catch(err) {
     console.log(err);

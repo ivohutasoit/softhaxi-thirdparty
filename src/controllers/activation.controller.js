@@ -26,7 +26,6 @@ async function user(ctx) {
           .update({ is_active: true, activation_code: null, updated_by: user.id })
           .where('id', user.id)
           .where('is_deleted', false);
-      console.log(rowNumber);
       if(rowNumber === 1) {
         user = await User.query()
           .where('id', user.id)
